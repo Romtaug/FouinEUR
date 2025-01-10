@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Recherche de produits sur Amazon</title>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 8px;
+        text-align: left;
+    }
+    table {
+        width: 100%;
+    }
+    form {
+        margin-bottom: 20px;
+    }
+</style>
+</head>
+<body>
+<h1>Recherche de produits sur Amazon</h1>
+<form id="searchForm" onsubmit="event.preventDefault(); fetchProducts();">
+    <label for="query">Rechercher un produit:</label>
+    <input type="text" id="query" name="query" value="glasses">
+    
+    <label for="maxPrice">Prix Maximum ($):</label>
+    <input type="number" id="maxPrice" name="maxPrice" value="500">
+    
+    <button type="submit">Rechercher</button>
+</form>
+<table id="productsTable">
+    <tr>
+        <th>Produit</th>
+        <th>Prix ($)</th>
+        <th>URL</th>
+    </tr>
+</table>
+
+<script>
+async function fetchProducts() {
+    const query = document.getElementById('query').value;
+    const maxPrice = document.getElementById('maxPrice').value;
+
+    const apiUrl = "https://real-time-amazon-data.p.rapidapi.com/search";
+    const params = new URLSearchParams({
+        query: query,
+        page: "1",
+        country: "US",
+        sort_by: "RELEVANCE",
+        category_id: "aps",
+        max_price: maxPrice
+    });
+
+    const headers = {
+        "X-RapidAPI-Key": "b9ee6a42a7mshe7386d9bc393dadp14419fjsn8ae618abbf42",
+        "X-RapidAPI-Host": "real-time-amazon-data.p.rapidapi.com"
+    };
+
+    axios.get(`${apiUrl}?${params.toString()}`, { headers: headers })
+        .then(response => {
+            const products = response.data.data.products;
+            // Sort products by price
+            products.sort((a, b) => parseFloat(a.product_price.replace(/[^0-9.-]+/g,"")) - parseFloat(b.product_price.replace(/[^0-9.-]+/g,"")));
+
+            const table = document.getElementById("productsTable");
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+            products.forEach(product => {
+                const row = table.insertRow();
+                const titleCell = row.insertCell(0);
+                const priceCell = row.insertCell(1);
+                const urlCell = row.insertCell(2);
+
+                titleCell.textContent = product.product_title;
+                priceCell.textContent = product.product_price;
+                const link = document.createElement('a');
+                link.href = product.product_url;
+                link.textContent = product.product_url; // Display the full URL
+                link.target = "_blank";
+                urlCell.appendChild(link);
+            });
+        })
+        .catch(error => {
+            console.error("Failed to retrieve product data:", error);
+        });
+}
+</script>
+</body>
+</html>

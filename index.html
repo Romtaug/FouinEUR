@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <img src="images/logo.png" alt="Logo FouinEUR" style="position: absolute; top: 15px; right: 10px; width: 60px; height: auto;">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FouinEUR</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Bienvenue sur FouinEUR !</h1>
+    </header>
+    <main>
+        <section>
+            <p>Bienvenue chers chasseurs de bonnes affaires, sur FouinEUR.fr, la plateforme ultime dédiée à tous les radins et les crevards qui se respectent ! Notre mission ? Vous aider à dénicher les meilleures offres sur le web, tout en vous assurant de ne jamais payer un euro de plus que nécessaire. Que vous soyez à la recherche de gadgets high-tech, de vêtements à la mode, d'accessoires pour la maison ou de tout autre produit, nous scrutons les quatre coins de l'internet pour vous apporter les deals les plus alléchants. Recherchez le mot clé en anglais de préférence.</p>
+        </section>
+        <h2 style="color: #333; margin-top: 30px; margin-left: 20px;">Conseils pour économiser</h2>
+        <ul>
+            <li><strong>Établissez un budget mensuel :</strong> Notez vos revenus et dépenses pour mieux gérer votre argent.</li>
+            <li><strong>Évitez les achats impulsifs :</strong> Attendez 24 heures avant d'acheter des articles non essentiels.</li>
+            <li><strong>Utilisez des codes promo et cashbacks :</strong> Recherchez des coupons et profitez des applications de cashback.</li>
+            <li><strong>Achetez d’occasion ou pendant les soldes :</strong> Trouvez de bonnes affaires en seconde main ou en période de promotions.</li>
+            <li><strong>Réduisez vos factures énergétiques :</strong> Adoptez des gestes simples comme éteindre les lumières inutiles.</li>
+            <li><strong>Préparez vos repas à la maison :</strong> Planifiez vos repas et évitez les plats préparés.</li>
+            <li><strong>Évitez les crédits à la consommation :</strong> Payez comptant pour éviter les intérêts inutiles.</li>
+            <li><strong>Abonnez-vous aux newsletters :</strong> Recevez des offres exclusives de vos marques préférées.</li>
+            <li><strong>Investissez dans des produits durables :</strong> Achetez des articles de qualité qui durent plus longtemps.</li>
+            <li><strong>Revendez ce que vous n’utilisez plus :</strong> Gagnez de l’argent en vendant vos objets inutilisés.</li>
+        </ul>
+    </section>
+        <div class="tenor-gif-embed small-gif" data-postid="12610730076118899182" data-share-method="host" data-aspect-ratio="1.75352" data-width="100%">
+            <a href="https://tenor.com/view/je-ne-suis-pas-radin-gif-12610730076118899182">Je Ne Suis Pas Radin GIF</a> de 
+            <a href="https://tenor.com/search/je+ne+suis+pas+radin-gifs">Je Ne Suis Pas Radin GIFs</a>
+        </div>
+        <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+        <section>
+            <ul>
+                <li><strong>Recherche globale de produits :</strong> Entrez le nom du produit et laissez notre algorithme chercher les meilleures offres pour vous.</li>
+                <li><strong>Comparaison de prix :</strong> Visualisez les prix de différents vendeurs pour le même produit et choisissez l'offre la plus avantageuse.</li>
+                <li><strong>Alertes de prix :</strong> Définissez des alertes pour vos produits préférés et soyez notifiés dès que les prix baissent.</li>
+                <li><strong>Conseils de radin :</strong> Des guides et des astuces pour maximiser vos économies sur chaque achat.</li>
+            </ul>
+        </section>
+        <h2>Traducteur</h2>
+        <div class="translator">
+            <label for="sourceLang">Langue source :</label>
+            <select id="sourceLang">
+                <option value="fr">Français</option>
+                <option value="en">Anglais</option>
+            </select>
+
+            <label for="targetLang">Langue cible :</label>
+            <select id="targetLang">
+                <option value="en">Anglais</option>
+                <option value="fr">Français</option>
+            </select>
+
+            <input type="text" id="textToTranslate" placeholder="Entrez le texte à traduire">
+            <button onclick="translateText()">Traduire</button>
+            <p>Traduction : <span id="translationResult"></span></p>
+        </div>
+        <h2>Recherche</h2>
+        <form id="searchForm">
+            <div class="form-controls">
+                <input type="text" id="itemTitle" name="itemTitle" placeholder="ex : Rolex" required>
+                <button type="button" onclick="fetchProductsGlobal()">Rechercher</button>
+                <button type="button" onclick="window.location.reload();">Nouvelle recherche</button>
+            </div>
+        </form>
+
+        <table id="productsTable">
+            <tr>
+                <th>Titre</th>
+                <th>Prix (converti en €)</th>
+                <th>URL d'affiliation</th>
+            </tr>
+        </table>
+
+        <div id="errorMessages" style="color: red; margin-top: 20px;"></div>
+
+        <script>
+// Fonction pour traduire un texte via l'API Deep Translate
+function translateText() {
+    const text = document.getElementById('textToTranslate').value;
+    const sourceLang = document.getElementById('sourceLang').value;
+    const targetLang = document.getElementById('targetLang').value;
+
+    if (!text) {
+        document.getElementById('translationResult').textContent = 'Veuillez entrer un texte.';
+        return;
+    }
+
+    document.getElementById('translationResult').textContent = 'Traduction en cours...';
+
+    fetch("https://deep-translate1.p.rapidapi.com/language/translate/v2", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-RapidAPI-Key": "b9ee6a42a7mshe7386d9bc393dadp14419fjsn8ae618abbf42",
+            "X-RapidAPI-Host": "deep-translate1.p.rapidapi.com"
+        },
+        body: JSON.stringify({
+            q: text,
+            source: sourceLang,
+            target: targetLang
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erreur HTTP ' + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data && data.data && data.data.translations) {
+            document.getElementById('translationResult').textContent = data.data.translations.translatedText;
+        } else {
+            document.getElementById('translationResult').textContent = 'Aucune traduction trouvée.';
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        document.getElementById('translationResult').textContent = 'Erreur lors de la traduction.';
+    });
+}
+
+// Fonction pour formater les prix en format français
+function formatPriceFR(price) {
+    return new Intl.NumberFormat('fr-FR', {
+        style: 'currency',
+        currency: 'EUR'
+    }).format(price);
+}
+
+// Fonction principale pour rechercher des produits sur différentes plateformes
+async function fetchProductsGlobal() {
+    const itemTitle = document.getElementById('itemTitle').value;
+    const errorMessages = document.getElementById('errorMessages');
+    errorMessages.innerHTML = "";
+
+    const allProducts = [];
+
+    try {
+        const aliexpressResponse = await fetchProductsAliexpress(itemTitle);
+        if (aliexpressResponse) {
+            aliexpressResponse.data.Result.Items.Items.Content.forEach(product => {
+                const price = product.PromotionPrice?.MarginPrice || product.Price?.ConvertedPriceWithoutSign;
+                if (price) {
+                    allProducts.push({
+                        title: product.Title,
+                        price: parseFloat(price),
+                        url: product.ExternalItemUrl,
+                        source: 'AliExpress'
+                    });
+                }
+            });
+        }
+    } catch (error) {
+        errorMessages.innerHTML += `<p>Erreur avec l'API AliExpress : ${error.message}</p>`;
+    }
+
+    try {
+        const ebayResponse = await fetchProductsEbay(itemTitle);
+        if (ebayResponse) {
+            ebayResponse.data.forEach(product => {
+                allProducts.push({
+                    title: product.name,
+                    price: parseFloat(product.price.replace(/[^\d.-]/g, '')),
+                    url: product.link,
+                    source: 'eBay'
+                });
+            });
+        }
+    } catch (error) {
+        errorMessages.innerHTML += `<p>Erreur avec l'API eBay : ${error.message}</p>`;
+    }
+
+    try {
+        const amazonResponse = await fetchProductsAmazon(itemTitle);
+        if (amazonResponse) {
+            amazonResponse.data.data.products.forEach(product => {
+                allProducts.push({
+                    title: product.product_title,
+                    price: parseFloat(product.product_price.replace(/[^0-9.-]+/g, "")),
+                    url: product.product_url,
+                    source: 'Amazon'
+                });
+            });
+        }
+    } catch (error) {
+        errorMessages.innerHTML += `<p>Erreur avec l'API Amazon : ${error.message}</p>`;
+    }
+
+    if (allProducts.length === 0) {
+        errorMessages.innerHTML += '<p>Aucun produit trouvé. Veuillez réessayer plus tard.</p>';
+        return;
+    }
+
+    allProducts.sort((a, b) => a.price - b.price);
+    const table = document.getElementById('productsTable');
+    while (table.rows.length > 1) {
+        table.deleteRow(1);
+    }
+
+    allProducts.forEach(product => {
+        const row = table.insertRow();
+        const titleCell = row.insertCell(0);
+        const priceCell = row.insertCell(1);
+        const urlCell = row.insertCell(2);
+
+        titleCell.textContent = product.title;
+        priceCell.textContent = formatPriceFR(product.price); // Applique le formatage français
+        const link = document.createElement('a');
+        link.href = product.url;
+        link.textContent = `Voir sur ${product.source}`;
+        link.target = "_blank";
+        urlCell.appendChild(link);
+    });
+}
+
+// Fonction pour récupérer les produits depuis l'API AliExpress
+async function fetchProductsAliexpress(itemTitle) {
+    const apiUrl = "https://otapi-aliexpress.p.rapidapi.com/BatchSearchItemsFrame";
+    const params = new URLSearchParams({
+        language: "en",
+        framePosition: "0",
+        frameSize: "14",
+        ItemTitle: itemTitle,
+        OrderBy: "Popularity:Desc",
+        MaxPrice: "100000000",
+    });
+    const headers = {
+        "X-RapidAPI-Key": "b9ee6a42a7mshe7386d9bc393dadp14419fjsn8ae618abbf42",
+        "X-RapidAPI-Host": "otapi-aliexpress.p.rapidapi.com"
+    };
+    return axios.get(`${apiUrl}?${params}`, { headers });
+}
+
+// Fonction pour récupérer les produits depuis l'API eBay
+async function fetchProductsEbay(itemTitle) {
+    const apiUrl = "https://ebay-data-scraper.p.rapidapi.com/products";
+    const params = { page_number: "1", product_name: itemTitle };
+    const headers = {
+        "X-RapidAPI-Key": "b9ee6a42a7mshe7386d9bc393dadp14419fjsn8ae618abbf42",
+        "X-RapidAPI-Host": "ebay-data-scraper.p.rapidapi.com"
+    };
+    return axios.get(apiUrl, { headers: headers, params: params });
+}
+
+// Fonction pour récupérer les produits depuis l'API Amazon
+async function fetchProductsAmazon(itemTitle) {
+    const apiUrl = "https://real-time-amazon-data.p.rapidapi.com/search";
+    const params = new URLSearchParams({
+        query: itemTitle,
+        page: "1",
+        country: "US",
+        sort_by: "RELEVANCE",
+        category_id: "aps"
+    });
+    const headers = {
+        "X-RapidAPI-Key": "b9ee6a42a7mshe7386d9bc393dadp14419fjsn8ae618abbf42",
+        "X-RapidAPI-Host": "real-time-amazon-data.p.rapidapi.com"
+    };
+    return axios.get(`${apiUrl}?${params.toString()}`, { headers: headers });
+}
+
+        </script>
+
+        <footer>
+            <p> 2024 FouinEUR. Tous droits réservés - Romain Taugourdeau</p>
+        </footer>
+
+        <br/><br/><br/><br/>
+</body>
+</html>

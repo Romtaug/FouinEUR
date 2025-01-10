@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Product Search</title>
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 10px;
+}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("searchForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        var itemTitle = document.getElementById("itemTitle").value;
+        fetchProducts(itemTitle);
+    });
+});
+
+function fetchProducts(itemTitle) {
+    var url = "https://otapi-aliexpress.p.rapidapi.com/BatchSearchItemsFrame";
+    var headers = {
+        "X-RapidAPI-Key": "b9ee6a42a7mshe7386d9bc393dadp14419fjsn8ae618abbf42",
+        "X-RapidAPI-Host": "otapi-aliexpress.p.rapidapi.com"
+    };
+    const params = new URLSearchParams({
+        language: "fr",
+        framePosition: "0",
+        frameSize: "14",
+        ItemTitle: itemTitle,
+        OrderBy: "Popularity:Desc",
+        MaxPrice: 500,
+        currency: 'EUR'  // Assurez-vous que le paramètre de devise est correctement défini
+    });
+
+    fetch(`${url}?${params}`, { headers: headers })
+        .then(response => response.json())
+        .then(data => {
+            displayResults(data);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+}
+
+function displayResults(data) {
+    var products = data.Result.Items.Items.Content;
+    var table = document.getElementById("resultsTable");
+    // Effacer les résultats précédents
+    table.innerHTML = "";
+
+    // Créer la ligne d'en-tête
+    var headerRow = table.insertRow(-1);
+    var headers = ["Titre", "Prix Affiché", "URL"];
+    headers.forEach(headerText => {
+        var headerCell = document.createElement("th");
+        headerCell.textContent = headerText;
+        headerRow.appendChild(headerCell);
+    });
+
+    // Remplir le tableau avec les données des produits
+    products.forEach(item => {
+        var row = table.insertRow(-1);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+
+        cell1.textContent = item.Title;
+
+        // Afficher le prix promotionnel s'il est disponible, sinon le prix original
+        var displayedPrice = item.PromotionPrice && item.PromotionPrice.MarginPrice
+                             ? parseFloat(item.PromotionPrice.MarginPrice).toFixed(2)
+                             : parseFloat(item.Price.ConvertedPriceWithoutSign).toFixed(2);
+        cell2.textContent = displayedPrice ? displayedPrice : 'Indisponible';
+
+        cell3.textContent = item.ExternalItemUrl;
+    });
+}
+
+</script>
+</head>
+<body>
+<h1>Product Search</h1>
+<form id="searchForm">
+    <label for="itemTitle">Entrez le titre du produit :</label>
+    <input type="text" id="itemTitle" name="itemTitle" value="glasses" required>    
+    <button type="submit">Search</button>
+</form>
+<table id="resultsTable"></table>
+</body>
+</html>

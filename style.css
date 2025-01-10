@@ -1,0 +1,213 @@
+/* Base Styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Times New Roman', serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #333; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    display: flex; /* Utilisation de flexbox pour un alignement facile */
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    height: 60px; /* Hauteur fixe */
+    width: 100%; /* Largeur totale */
+    position: fixed; /* Fixe le footer en bas de la page */
+    bottom: 0; /* Position en bas */
+    left: 0; /* Fixe à gauche */
+    text-align: center; /* Alignement du texte */
+    font-size: 0.95em; /* Taille de la police */
+    font-style: italic; /* Italique */
+    margin: 0; /* Supprime les marges par défaut */
+    padding: 0; /* Supprime tout espacement interne */
+    z-index: 10; /* Assure qu'il est visible au-dessus des autres éléments */
+}
+
+footer p {
+    margin: 0; /* Supprime les marges autour du texte */
+}
+
+
+h1 {
+    color: #0056b3;
+    text-align: center;
+    margin-top: 20px;
+}
+
+h2 {
+    color: #333;
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* Style pour les paragraphes */
+p {
+    margin: 10px auto; /* Marge plus petite */
+    width: 80%; /* Centrage et largeur */
+    font-size: 1em;
+    text-align: justify;
+}
+
+/* Style pour les listes (li) */
+li {
+    margin: 10px auto; /* Réduit la marge verticale */
+    width: 80%; /* Centrage et largeur (optionnel) */
+    font-size: 1em;
+    line-height: 1; /* Réduit l'espacement entre les lignes des éléments de liste */
+}
+
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Navigation Styling */
+nav ul {
+    background: #333;
+    text-align: center;
+    padding: 0;
+    list-style: none;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: white;
+    padding: 15px 20px;
+    display: inline-block;
+}
+
+/* Form Styling */
+form#searchForm {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 0 10px;
+}
+
+.form-controls {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+}
+
+.form-controls input, .form-controls button {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.form-controls button {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.form-controls button:hover {
+    background-color: #004494;
+}
+
+/* Translator Styling */
+.translator {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+.translator label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.translator select, .translator input {
+    padding: 10px;
+    margin: 10px 0;
+    width: calc(100% - 22px);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.translator button {
+    padding: 10px 20px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.translator button:hover {
+    background-color: #004494;
+}
+
+.translator p {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* Table Styling */
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #333;
+    color: white;
+}
+
+/* GIF Styling */
+.small-gif {
+    max-width: 800px;
+    width: 100%;
+    margin: auto;
+}
+
+@media (max-width: 768px) {
+    .small-gif {
+        max-width: 560px;
+    }
+}
+
+/* Responsive and Utility Styles */
+@media (max-width: 600px) {
+    .form-controls {
+        flex-direction: column;
+    }
+
+    .form-controls input, .form-controls button {
+        width: 100%;
+    }
+
+    nav ul li {
+        display: block;
+    }
+}
