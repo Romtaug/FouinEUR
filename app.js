@@ -13,7 +13,8 @@ function fetchProducts() {
     });
 
     const headers = {
-        "X-RapidAPI-Key": "b9ee6a42a7mshe7386d9bc393dadp14419fjsn8ae618abbf42",
+        // API Aliexpress
+        "X-RapidAPI-Key": "",
         "X-RapidAPI-Host": "otapi-aliexpress.p.rapidapi.com"
     };
 
