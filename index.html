@@ -99,8 +99,9 @@ function translateText() {
     fetch("https://deep-translate1.p.rapidapi.com/language/translate/v2", {
         method: "POST",
         headers: {
+            // API translation
             "Content-Type": "application/json",
-            "X-RapidAPI-Key": "b9ee6a42a7mshe7386d9bc393dadp14419fjsn8ae618abbf42",
+            "X-RapidAPI-Key": "",
             "X-RapidAPI-Host": "deep-translate1.p.rapidapi.com"
         },
         body: JSON.stringify({
@@ -245,7 +246,8 @@ async function fetchProductsEbay(itemTitle) {
     const apiUrl = "https://ebay-data-scraper.p.rapidapi.com/products";
     const params = { page_number: "1", product_name: itemTitle };
     const headers = {
-        "X-RapidAPI-Key": "b9ee6a42a7mshe7386d9bc393dadp14419fjsn8ae618abbf42",
+        // API eBay
+        "X-RapidAPI-Key": "",
         "X-RapidAPI-Host": "ebay-data-scraper.p.rapidapi.com"
     };
     return axios.get(apiUrl, { headers: headers, params: params });
@@ -262,7 +264,8 @@ async function fetchProductsAmazon(itemTitle) {
         category_id: "aps"
     });
     const headers = {
-        "X-RapidAPI-Key": "b9ee6a42a7mshe7386d9bc393dadp14419fjsn8ae618abbf42",
+        // API Amazon
+        "X-RapidAPI-Key": "",
         "X-RapidAPI-Host": "real-time-amazon-data.p.rapidapi.com"
     };
     return axios.get(`${apiUrl}?${params.toString()}`, { headers: headers });
